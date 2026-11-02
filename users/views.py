@@ -1,9 +1,20 @@
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import viewsets
-from rest_framework.filters import OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend, OrderingFilter
+from users.models import CustomUser, Payment
+from users.serializers import UserSerializer, PaymentSerializer
+from rest_framework import viewsets, generics
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
-from users.models import Payment
-from users.serializers import PaymentSerializer
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = CustomUser.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class UserRegisterAPIView(generics.CreateAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [AllowAny]
 
 
 class PaymentViewSet(viewsets.ModelViewSet):
