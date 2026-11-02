@@ -7,7 +7,7 @@ class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
         fields = '__all__'
-
+        read_only_fields = ["owner"]
 
 class CourseSerializer(serializers.ModelSerializer):
     lesson_count = serializers.SerializerMethodField()
@@ -18,6 +18,6 @@ class CourseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
-        fields = ['name', 'description', 'preview', 'lesson_count', "lessons"]
-
+        fields = ['name', 'description', 'preview', 'lesson_count', "lessons", "owner", ]
+        read_only_fields = ["owner"]
 
