@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from .models import CustomUser, Payment
+from .models import CustomUser, Payment, Subscription
 
 
 @admin.register(CustomUser)
@@ -37,3 +37,4 @@ class CustomUserAdmin(UserAdmin):
 
 
 admin.site.register(Payment)
+admin.site.register(Subscription)

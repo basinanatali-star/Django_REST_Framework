@@ -4,7 +4,7 @@
     "model": "users.payment",
     "pk": 1,
     "fields": {
-      "user": 1,
+      "user": 2,
       "payment_date": "2026-10-01T10:30:00Z",
       "paid_course": 1,
       "paid_lesson": null,
@@ -16,10 +16,10 @@
     "model": "users.payment",
     "pk": 2,
     "fields": {
-      "user": 1,
+      "user": 2,
       "payment_date": "2026-10-05T14:20:00Z",
       "paid_course": null,
-      "paid_lesson": 2,
+      "paid_lesson": 1,
       "amount": "3000.00",
       "payment_method": "transfer"
     }
@@ -28,7 +28,7 @@
     "model": "users.payment",
     "pk": 3,
     "fields": {
-      "user": 39,
+      "user": 3,
       "payment_date": "2026-10-10T09:15:00Z",
       "paid_course": 1,
       "paid_lesson": null,
@@ -40,10 +40,10 @@
     "model": "users.payment",
     "pk": 4,
     "fields": {
-      "user": 39,
+      "user": 3,
       "payment_date": "2026-10-15T16:45:00Z",
       "paid_course": null,
-      "paid_lesson": 3,
+      "paid_lesson": 2,
       "amount": "4500.00",
       "payment_method": "cash"
     }
