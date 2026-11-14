@@ -9,6 +9,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
+
 DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -26,6 +28,7 @@ INSTALLED_APPS = [
     'materials',
     "django_filters",
     "rest_framework_simplejwt",
+    "drf_spectacular",
 ]
 
 MIDDLEWARE = [
@@ -113,6 +116,14 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Django REST Framework API",
+    "DESCRIPTION": "Документация API учебного проекта",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
 }
 
 SIMPLE_JWT = {

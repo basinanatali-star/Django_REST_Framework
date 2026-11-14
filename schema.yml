@@ -1,0 +1,1105 @@
+openapi: 3.0.3
+info:
+  title: Django REST Framework API
+  version: 1.0.0
+  description: Документация API учебного проекта
+paths:
+  /materials/courses/:
+    get:
+      operationId: materials_courses_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - materials
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCourseList'
+          description: ''
+    post:
+      operationId: materials_courses_create
+      tags:
+      - materials
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Course'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Course'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+          description: ''
+  /materials/courses/{id}/:
+    get:
+      operationId: materials_courses_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Курс.
+        required: true
+      tags:
+      - materials
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+          description: ''
+    put:
+      operationId: materials_courses_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Курс.
+        required: true
+      tags:
+      - materials
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Course'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Course'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+          description: ''
+    patch:
+      operationId: materials_courses_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Курс.
+        required: true
+      tags:
+      - materials
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCourse'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCourse'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCourse'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+          description: ''
+    delete:
+      operationId: materials_courses_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Курс.
+        required: true
+      tags:
+      - materials
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /materials/lessons/:
+    get:
+      operationId: materials_lessons_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - materials
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLessonList'
+          description: ''
+  /materials/lessons/{id}/:
+    get:
+      operationId: materials_lessons_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - materials
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lesson'
+          description: ''
+  /materials/lessons/{id}/delete/:
+    delete:
+      operationId: materials_lessons_delete_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - materials
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /materials/lessons/{id}/update/:
+    put:
+      operationId: materials_lessons_update_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - materials
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lesson'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Lesson'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Lesson'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lesson'
+          description: ''
+    patch:
+      operationId: materials_lessons_update_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - materials
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedLesson'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedLesson'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedLesson'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lesson'
+          description: ''
+  /materials/lessons/create/:
+    post:
+      operationId: materials_lessons_create_create
+      tags:
+      - materials
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lesson'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Lesson'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Lesson'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lesson'
+          description: ''
+  /materials/subscriptions/:
+    post:
+      operationId: materials_subscriptions_create
+      tags:
+      - materials
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Subscription'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Subscription'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Subscription'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionResponse'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionResponse'
+          description: ''
+  /users/payment/:
+    get:
+      operationId: users_payment_list
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - in: query
+        name: paid_course
+        schema:
+          type: integer
+      - in: query
+        name: paid_lesson
+        schema:
+          type: integer
+      - in: query
+        name: payment_method
+        schema:
+          type: string
+          title: Способ оплаты
+          enum:
+          - cash
+          - transfer
+        description: |-
+          * `cash` - Наличные
+          * `transfer` - Перевод на счет
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Payment'
+          description: ''
+    post:
+      operationId: users_payment_create
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Payment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Payment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Payment'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+          description: ''
+  /users/payment/{id}/:
+    get:
+      operationId: users_payment_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Платеж.
+        required: true
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+          description: ''
+    put:
+      operationId: users_payment_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Платеж.
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Payment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Payment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Payment'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+          description: ''
+    patch:
+      operationId: users_payment_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Платеж.
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedPayment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedPayment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedPayment'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+          description: ''
+    delete:
+      operationId: users_payment_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Платеж.
+        required: true
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /users/register/:
+    post:
+      operationId: users_register_create
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /users/token/:
+    post:
+      operationId: users_token_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /users/token/refresh/:
+    post:
+      operationId: users_token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /users/users/:
+    get:
+      operationId: users_users_list
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+          description: ''
+    post:
+      operationId: users_users_create
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /users/users/{id}/:
+    get:
+      operationId: users_users_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Пользователь.
+        required: true
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    put:
+      operationId: users_users_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Пользователь.
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    patch:
+      operationId: users_users_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Пользователь.
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    delete:
+      operationId: users_users_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Пользователь.
+        required: true
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    Course:
+      type: object
+      properties:
+        name:
+          type: string
+          title: Название курса
+          maxLength: 150
+        description:
+          type: string
+          title: Описание курса
+          maxLength: 255
+        preview:
+          type: string
+          format: uri
+          nullable: true
+          title: Превью
+        lesson_count:
+          type: integer
+          readOnly: true
+        lessons:
+          type: array
+          items:
+            $ref: '#/components/schemas/Lesson'
+          readOnly: true
+        owner:
+          type: integer
+          readOnly: true
+          title: Владелец
+        is_subscribed:
+          type: boolean
+          readOnly: true
+      required:
+      - description
+      - is_subscribed
+      - lesson_count
+      - lessons
+      - name
+      - owner
+    Lesson:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        video_url:
+          type: string
+          format: uri
+        name:
+          type: string
+          title: Название урока
+          maxLength: 150
+        description:
+          type: string
+          title: Описание урока
+          maxLength: 255
+        preview:
+          type: string
+          format: uri
+          nullable: true
+          title: Превью
+        course:
+          type: integer
+          title: Курс
+        owner:
+          type: integer
+          readOnly: true
+          title: Владелец
+      required:
+      - course
+      - description
+      - id
+      - name
+      - owner
+      - video_url
+    PaginatedCourseList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Course'
+    PaginatedLessonList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Lesson'
+    PatchedCourse:
+      type: object
+      properties:
+        name:
+          type: string
+          title: Название курса
+          maxLength: 150
+        description:
+          type: string
+          title: Описание курса
+          maxLength: 255
+        preview:
+          type: string
+          format: uri
+          nullable: true
+          title: Превью
+        lesson_count:
+          type: integer
+          readOnly: true
+        lessons:
+          type: array
+          items:
+            $ref: '#/components/schemas/Lesson'
+          readOnly: true
+        owner:
+          type: integer
+          readOnly: true
+          title: Владелец
+        is_subscribed:
+          type: boolean
+          readOnly: true
+    PatchedLesson:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        video_url:
+          type: string
+          format: uri
+        name:
+          type: string
+          title: Название урока
+          maxLength: 150
+        description:
+          type: string
+          title: Описание урока
+          maxLength: 255
+        preview:
+          type: string
+          format: uri
+          nullable: true
+          title: Превью
+        course:
+          type: integer
+          title: Курс
+        owner:
+          type: integer
+          readOnly: true
+          title: Владелец
+    PatchedPayment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        payment_date:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата оплаты
+        amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          title: Сумма оплаты
+        payment_method:
+          allOf:
+          - $ref: '#/components/schemas/PaymentMethodEnum'
+          title: Способ оплаты
+        user:
+          type: integer
+          title: Пользователь
+        paid_course:
+          type: integer
+          nullable: true
+          title: Оплаченный курс
+        paid_lesson:
+          type: integer
+          nullable: true
+          title: Оплаченный урок
+    PatchedUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        password:
+          type: string
+          writeOnly: true
+        phone_number:
+          type: string
+          nullable: true
+          title: Телефон
+          description: Введите номер телефона
+          maxLength: 15
+        avatar:
+          type: string
+          format: uri
+          nullable: true
+          title: Аватар
+          description: Загрузите свой аватар
+        country:
+          type: string
+          nullable: true
+          title: Город
+          description: Введите название города
+          maxLength: 25
+    Payment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        payment_date:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата оплаты
+        amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          title: Сумма оплаты
+        payment_method:
+          allOf:
+          - $ref: '#/components/schemas/PaymentMethodEnum'
+          title: Способ оплаты
+        user:
+          type: integer
+          title: Пользователь
+        paid_course:
+          type: integer
+          nullable: true
+          title: Оплаченный курс
+        paid_lesson:
+          type: integer
+          nullable: true
+          title: Оплаченный урок
+      required:
+      - amount
+      - id
+      - payment_date
+      - payment_method
+      - user
+    PaymentMethodEnum:
+      enum:
+      - cash
+      - transfer
+      type: string
+      description: |-
+        * `cash` - Наличные
+        * `transfer` - Перевод на счет
+    Subscription:
+      type: object
+      properties:
+        course_id:
+          type: integer
+      required:
+      - course_id
+    SubscriptionResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+      - message
+    TokenObtainPair:
+      type: object
+      properties:
+        email:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - email
+      - password
+      - refresh
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          writeOnly: true
+      required:
+      - access
+      - refresh
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        password:
+          type: string
+          writeOnly: true
+        phone_number:
+          type: string
+          nullable: true
+          title: Телефон
+          description: Введите номер телефона
+          maxLength: 15
+        avatar:
+          type: string
+          format: uri
+          nullable: true
+          title: Аватар
+          description: Загрузите свой аватар
+        country:
+          type: string
+          nullable: true
+          title: Город
+          description: Введите название города
+          maxLength: 25
+      required:
+      - email
+      - id
+      - password
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

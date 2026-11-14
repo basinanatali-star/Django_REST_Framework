@@ -55,6 +55,7 @@ class Payment(models.Model):
     class PaymentMethod(models.TextChoices):
         CASH = "cash", "Наличные"
         TRANSFER = "transfer", "Перевод на счет"
+        STRIPE = "stripe", "Stripe"
 
     user =  models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -83,6 +84,32 @@ class Payment(models.Model):
     amount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Сумма оплаты")
 
     payment_method = models.CharField(max_length=10, choices=PaymentMethod.choices, verbose_name="Способ оплаты")
+
+    payment_url = models.URLField(
+        max_length=500,
+        blank=True,
+        null=True,
+        verbose_name="Ссылка на оплату",
+    )
+
+    stripe_session_id = models.CharField(
+        max_length=255,
+        blank=True,
+        null=True,
+        verbose_name="ID сессии Stripe",
+    )
+
+    class PaymentStatus(models.TextChoices):
+        PENDING = "pending", "Ожидает оплаты"
+        PAID = "paid", "Оплачен"
+
+    status = models.CharField(
+        max_length=10,
+        choices=PaymentStatus.choices,
+        default=PaymentStatus.PENDING,
+        verbose_name="Статус оплаты",
+    )
+
 
     def __str__(self):
         return f"Оплата {self.user} — {self.amount}"

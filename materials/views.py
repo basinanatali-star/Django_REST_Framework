@@ -13,12 +13,19 @@ from rest_framework.views import APIView
 
 from materials.models import Course, Lesson
 from materials.paginators import MaterialsPagination
-from materials.permissions import IsModerator, IsModeratorOrOwner
-from materials.serializers import CourseSerializer, LessonSerializer
+from materials.permissions import IsModeratorOrOwner
+from materials.serializers import (
+    CourseSerializer,
+    LessonSerializer,
+    SubscriptionResponseSerializer,
+    SubscriptionSerializer,
+)
 from users.models import Subscription
+from drf_spectacular.utils import extend_schema
 
 
 class CourseViewSet(viewsets.ModelViewSet):
+    queryset = Course.objects.all()
     serializer_class = CourseSerializer
     permission_classes = [IsModeratorOrOwner]
     pagination_class = MaterialsPagination
@@ -146,6 +153,13 @@ class LessonDestroyAPIView(DestroyAPIView):
 class SubscriptionAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
+    @extend_schema(
+        request=SubscriptionSerializer,
+        responses={
+            200: SubscriptionResponseSerializer,
+            400: SubscriptionResponseSerializer,
+        },
+    )
     def post(self, request, *args, **kwargs):
         user = request.user
         course_id = request.data.get("course_id")
