@@ -152,7 +152,7 @@ activemq-data/
 .envrc
 .venv
 env/
-../../OneDrive/Рабочий стол/project_Django/venv/
+venv/
 ENV/
 env.bak/
 venv.bak/
@@ -217,3 +217,4 @@ __marimo__/
 
 
 data/
+!data/config/
