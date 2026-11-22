@@ -16,7 +16,9 @@ from materials.paginators import MaterialsPagination
 from materials.permissions import IsModerator, IsModeratorOrOwner
 from materials.serializers import CourseSerializer, LessonSerializer
 from users.models import Subscription
+from django.db import transaction
 
+from materials.tasks import send_course_update_email
 
 class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
@@ -48,6 +50,15 @@ class CourseViewSet(viewsets.ModelViewSet):
             permission_classes = [IsModeratorOrOwner]
 
         return [permission() for permission in permission_classes]
+
+    def perform_update(self, serializer):
+        super().perform_update(serializer)
+
+        course = serializer.instance
+
+        transaction.on_commit(
+            lambda: send_course_update_email.delay(course.pk)
+        )
 
 
 class LessonViewSet(viewsets.ModelViewSet):
@@ -174,3 +185,4 @@ class SubscriptionAPIView(APIView):
             message = "Подписка добавлена"
 
         return Response({"message": message})
+
