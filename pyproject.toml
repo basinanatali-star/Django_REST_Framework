@@ -18,7 +18,9 @@ dependencies = [
     "eventlet (>=0.41.3,<0.42.0)",
     "celery (>=5.7.0,<6.0.0)",
     "redis (>=8.1.0,<9.0.0)",
-    "packaging (>=26.3,<27.0)"
+    "packaging (>=26.3,<27.0)",
+    "drf-spectacular (>=0.30.0,<0.31.0)",
+    "stripe (>=17.0.0,<18.0.0)"
 ]
 
 

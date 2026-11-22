@@ -2,6 +2,7 @@ from rest_framework import serializers
 from materials.models import Course, Lesson
 from materials.validators import validate_youtube_url
 from users.models import Subscription
+from drf_spectacular.utils import extend_schema_field
 
 
 class LessonSerializer(serializers.ModelSerializer):
@@ -20,9 +21,11 @@ class CourseSerializer(serializers.ModelSerializer):
     lessons = LessonSerializer(many=True, read_only=True)
     is_subscribed = serializers.SerializerMethodField()
 
+    @extend_schema_field(serializers.IntegerField())
     def get_lesson_count(self, obj):
         return obj.lessons.count()
 
+    @extend_schema_field(serializers.BooleanField())
     def get_is_subscribed(self, obj):
         user = self.context["request"].user
 
@@ -36,4 +39,12 @@ class CourseSerializer(serializers.ModelSerializer):
         model = Course
         fields = ['name', 'description', 'preview', 'lesson_count', "lessons", "owner", "is_subscribed" ]
         read_only_fields = ["owner"]
+
+
+class SubscriptionSerializer(serializers.Serializer):
+    course_id = serializers.IntegerField()
+
+
+class SubscriptionResponseSerializer(serializers.Serializer):
+    message = serializers.CharField()
 

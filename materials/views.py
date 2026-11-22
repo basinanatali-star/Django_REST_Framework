@@ -1,4 +1,9 @@
+
+from django.db import transaction
 from django.shortcuts import get_object_or_404
+
+from drf_spectacular.utils import extend_schema
+
 from rest_framework import viewsets
 from rest_framework.generics import (
     CreateAPIView,
@@ -13,14 +18,19 @@ from rest_framework.views import APIView
 
 from materials.models import Course, Lesson
 from materials.paginators import MaterialsPagination
-from materials.permissions import IsModerator, IsModeratorOrOwner
-from materials.serializers import CourseSerializer, LessonSerializer
-from users.models import Subscription
-from django.db import transaction
-
+from materials.permissions import IsModeratorOrOwner
+from materials.serializers import (
+    CourseSerializer,
+    LessonSerializer,
+    SubscriptionResponseSerializer,
+    SubscriptionSerializer,
+)
 from materials.tasks import send_course_update_email
+from users.models import Subscription
+
 
 class CourseViewSet(viewsets.ModelViewSet):
+    queryset = Course.objects.all()
     serializer_class = CourseSerializer
     permission_classes = [IsModeratorOrOwner]
     pagination_class = MaterialsPagination
@@ -36,34 +46,19 @@ class CourseViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
-    def get_permissions(self):
-        if self.action in [
-            "list",
-            "retrieve",
-            "create",
-            "update",
-            "partial_update",
-            "destroy",
-        ]:
-            permission_classes = [IsModeratorOrOwner]
-        else:
-            permission_classes = [IsModeratorOrOwner]
-
-        return [permission() for permission in permission_classes]
-
     def perform_update(self, serializer):
         super().perform_update(serializer)
-
-        course = serializer.instance
-
+        course = self.get_object()
         transaction.on_commit(
             lambda: send_course_update_email.delay(course.pk)
         )
 
 
 class LessonViewSet(viewsets.ModelViewSet):
+    queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
     permission_classes = [IsModeratorOrOwner]
+    pagination_class = MaterialsPagination
 
     def get_queryset(self):
         user = self.request.user
@@ -75,21 +70,6 @@ class LessonViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
-
-    def get_permissions(self):
-        if self.action in [
-            "list",
-            "retrieve",
-            "create",
-            "update",
-            "partial_update",
-            "destroy",
-        ]:
-            permission_classes = [IsModeratorOrOwner]
-        else:
-            permission_classes = [IsModeratorOrOwner]
-
-        return [permission() for permission in permission_classes]
 
 
 class LessonCreateAPIView(CreateAPIView):
@@ -157,6 +137,13 @@ class LessonDestroyAPIView(DestroyAPIView):
 class SubscriptionAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
+    @extend_schema(
+        request=SubscriptionSerializer,
+        responses={
+            200: SubscriptionResponseSerializer,
+            400: SubscriptionResponseSerializer,
+        },
+    )
     def post(self, request, *args, **kwargs):
         user = request.user
         course_id = request.data.get("course_id")
@@ -164,14 +151,14 @@ class SubscriptionAPIView(APIView):
         if not course_id:
             return Response(
                 {"message": "Не указан ID курса"},
-                status=400
+                status=400,
             )
 
         course_item = get_object_or_404(Course, id=course_id)
 
         subs_item = Subscription.objects.filter(
             user=user,
-            course=course_item
+            course=course_item,
         )
 
         if subs_item.exists():
@@ -180,9 +167,8 @@ class SubscriptionAPIView(APIView):
         else:
             Subscription.objects.create(
                 user=user,
-                course=course_item
+                course=course_item,
             )
             message = "Подписка добавлена"
 
         return Response({"message": message})
-
